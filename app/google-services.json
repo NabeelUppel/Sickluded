@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "614501608260",
+    "firebase_url": "https://sickluded-a31b2.firebaseio.com",
+    "project_id": "sickluded-a31b2",
+    "storage_bucket": "sickluded-a31b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614501608260:android:eb5c2249ae0abb5c1a0511",
+        "android_client_info": {
+          "package_name": "com.example.sickluded"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614501608260-ab1nfh4ca6694h0s0u97iek4dfq05gaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuEdU0llUetdu5OGb4SwaV20BlXQJapp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614501608260-ab1nfh4ca6694h0s0u97iek4dfq05gaq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
