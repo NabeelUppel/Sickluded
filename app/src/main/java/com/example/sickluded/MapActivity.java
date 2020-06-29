@@ -55,7 +55,7 @@ public class MapActivity extends MainActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
         getLayoutInflater().inflate(R.layout.activity_map, contentFrameLayout);
-
+        navigationView.setCheckedItem(R.id.Map);
         InitLocations();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -111,6 +111,18 @@ public class MapActivity extends MainActivity implements OnMapReadyCallback {
         });
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (isRunning) {
+            navigationView.getMenu().findItem(R.id.Tracker).setChecked(true);
+            navigationView.getMenu().findItem(R.id.Map).setChecked(true);
+        } else {
+            navigationView.getMenu().findItem(R.id.Map).setChecked(true);
+        }
+    }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

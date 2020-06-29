@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void EmailDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         builder.setTitle("Forgot Password");
 
 // Set up the input

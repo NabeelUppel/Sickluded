@@ -2,10 +2,12 @@ package com.example.sickluded;
 
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -36,17 +38,45 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     NavigationView navigationView;
     View headerView;
+    NearbyMessageService mService;
     private static final int PERMISSIONS_REQUEST = 100;
     private Context mContext = MainActivity.this;
+    BroadcastReceiver stopReceiver;
+    static boolean isRunning = false;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(stopReceiver);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navigationView = findViewById(R.id.navigation_view);
+
+        IntentFilter stopFilter = new IntentFilter();
+        stopFilter.addAction("com.goodbye.action");
+        stopReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                navigationView.getMenu().findItem(R.id.Tracker).setChecked(false);
+                isRunning = false;
+            }
+        };
+        registerReceiver(stopReceiver, stopFilter);
+
         String username = SharedPreferenceClass.getData(mContext, "username");
         String email = SharedPreferenceClass.getData(mContext, "email");
-
 
         headerView = navigationView.getHeaderView(0);
         TextView navUsername = headerView.findViewById(R.id.SavedUsername);
@@ -66,69 +96,85 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.ACCESS_FINE_LOCATION);
                 switch (item.getItemId()) {
 
+
                     case R.id.Map:
-                        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                            new AlertDialog.Builder(mContext)
-                                    .setTitle("Enable GPS")
-                                    .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                                        }
-                                    }).setNegativeButton("Cancel", null).show();
-                        }
-                        if (permission == PackageManager.PERMISSION_GRANTED) {
-                            Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
-                            startActivity(mapIntent);
-                            drawerLayout.closeDrawers();
-                        } else {
-                            //If the app doesn’t currently have access to the user’s location, then request access
-                            ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                    PERMISSIONS_REQUEST);
+                        if (!navigationView.getMenu().findItem(R.id.Map).isChecked()) {
+                            if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                new AlertDialog.Builder(mContext)
+                                        .setTitle("Enable GPS")
+                                        .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+
+                                            }
+                                        }).setNegativeButton("Cancel", null).show();
+                            }
+                            if (permission == PackageManager.PERMISSION_GRANTED) {
+                                Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
+                                startActivity(mapIntent);
+
+                                drawerLayout.closeDrawers();
+                            } else {
+                                //If the app doesn’t currently have access to the user’s location, then request access
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        PERMISSIONS_REQUEST);
+                            }
                         }
                         break;
 
                     case R.id.Home:
-                        Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(homeIntent);
-                        drawerLayout.closeDrawers();
+
+                        if (!navigationView.getMenu().findItem(R.id.Home).isChecked()) {
+                            Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                            startActivity(homeIntent);
+                            drawerLayout.closeDrawers();
+                        }
                         break;
 
                     case R.id.Tracker:
-                        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                            new AlertDialog.Builder(mContext)
-                                    .setTitle("Enable GPS")
-                                    .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                                        }
-                                    }).setNegativeButton("Cancel", null).show();
-                        }
+                        if (!navigationView.getMenu().findItem(R.id.Tracker).isChecked()) {
+                            if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                new AlertDialog.Builder(mContext)
+                                        .setTitle("Enable GPS")
+                                        .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                            }
+                                        }).setNegativeButton("Cancel", null).show();
+                            }
 
 
-                        if (permission == PackageManager.PERMISSION_GRANTED) {
-                            startNearbyService();
-                            drawerLayout.closeDrawers();
+                            if (permission == PackageManager.PERMISSION_GRANTED) {
+                                startNearbyService();
+                                drawerLayout.closeDrawers();
+                            } else {
+                                //If the app doesn’t currently have access to the user’s location, then request access
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        PERMISSIONS_REQUEST);
+                            }
                         } else {
-                            //If the app doesn’t currently have access to the user’s location, then request access
-                            ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                    PERMISSIONS_REQUEST);
+                            stopNearbyService();
                         }
                         break;
 
                     case R.id.Settings:
-                        Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
-                        startActivity(settingsIntent);
-                        drawerLayout.closeDrawers();
+                        if (!navigationView.getMenu().findItem(R.id.Settings).isChecked()) {
+                            Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                            startActivity(settingsIntent);
+                            drawerLayout.closeDrawers();
+                        }
                         break;
 
                     case R.id.Diagnosis:
-                        Intent diagnosisIntent = new Intent(getApplicationContext(), DiagnosisActivity.class);
-                        startActivity(diagnosisIntent);
-                        drawerLayout.closeDrawers();
+                        if (!navigationView.getMenu().findItem(R.id.Diagnosis).isChecked()) {
+                            Intent diagnosisIntent = new Intent(getApplicationContext(), DiagnosisActivity.class);
+                            startActivity(diagnosisIntent);
+                            drawerLayout.closeDrawers();
+                        }
                         break;
 
                     case R.id.Logout:
@@ -137,9 +183,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.Symptoms:
-                        Intent symptomsIntent = new Intent(getApplicationContext(), SymptomsActivity.class);
-                        startActivity(symptomsIntent);
-                        drawerLayout.closeDrawers();
+                        if (!navigationView.getMenu().findItem(R.id.Symptoms).isChecked()) {
+                            Intent symptomsIntent = new Intent(getApplicationContext(), SymptomsActivity.class);
+                            startActivity(symptomsIntent);
+                            drawerLayout.closeDrawers();
+                        }
                         break;
 
                 }
@@ -162,10 +210,17 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferenceClass.deleteAllData(this);
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
+        if(isRunning){
+            stopService(new Intent(this, NearbyMessageService.class));
+            isRunning = false;
+        }
     }
 
     private void startNearbyService() {
+
+        navigationView.getMenu().findItem(R.id.Tracker).setChecked(true);
         startService(new Intent(this, NearbyMessageService.class));
+        isRunning = true;
     }
 
     public void RemoveDeviceToken() {
@@ -191,8 +246,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-
+    private void stopNearbyService() {
+        navigationView.getMenu().findItem(R.id.Tracker).setChecked(false);
+        Toast.makeText(this, "Stopping tracker", Toast.LENGTH_LONG).show();
+        stopService(new Intent(this, NearbyMessageService.class));
+        isRunning = false;
     }
+
+
 }

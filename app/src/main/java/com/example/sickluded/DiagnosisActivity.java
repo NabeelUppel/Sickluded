@@ -34,17 +34,11 @@ public class DiagnosisActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
         getLayoutInflater().inflate(R.layout.activity_diagnosis, contentFrameLayout);
+        navigationView.setCheckedItem(R.id.Diagnosis);
         np = findViewById(R.id.numberPicker);
         InitialisePicker();
         btnConfirm = findViewById(R.id.btnConfirm);
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                alertBoxBuilder();
-
-            }
-        });
 
         btnRequest = findViewById(R.id.Request);
         btnRequest.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +51,17 @@ public class DiagnosisActivity extends MainActivity {
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (isRunning) {
+            navigationView.getMenu().findItem(R.id.Tracker).setChecked(true);
+            navigationView.getMenu().findItem(R.id.Diagnosis).setChecked(true);
+        } else {
+            navigationView.getMenu().findItem(R.id.Diagnosis).setChecked(true);
+        }
+    }
+
     public void InitialisePicker() {
         np.setMinValue(0);
         np.setMaxValue(1);
@@ -64,13 +69,22 @@ public class DiagnosisActivity extends MainActivity {
         np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                valuePicker = np.getValue();
-                valuePicked = npValues[valuePicker];
-                if (valuePicked.equals("I am healthy")) {
-                    btnConfirm.setVisibility(View.INVISIBLE);
-                } else {
-                    btnConfirm.setVisibility(View.VISIBLE);
-                }
+
+
+                btnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        valuePicker = np.getValue();
+                        valuePicked = npValues[valuePicker];
+                        if (valuePicked.equals("I am healthy")) {
+                            RecordRecovery();
+                        } else {
+                            alertBoxBuilder();
+                        }
+
+
+                    }
+                });
             }
         });
 
@@ -146,5 +160,22 @@ public class DiagnosisActivity extends MainActivity {
             }
         });
     }
+
+
+    public void RecordRecovery() {
+        String jwt = SharedPreferenceClass.getData(getApplicationContext(), "jwt");
+        ContentValues params = new ContentValues();
+        params.put("function", "UserRecovery");
+        params.put("jwtPost", jwt);
+        String URL = "https://lamp.ms.wits.ac.za/home/s2090704/indexDiagnosis.php";
+        new PhpHandler().makeHttpRequest(DiagnosisActivity.this, URL, params, new RequestHandler() {
+            @Override
+            public void processRequest(String response) throws JSONException {
+                Toast.makeText(DiagnosisActivity.this, response.trim(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 
 }

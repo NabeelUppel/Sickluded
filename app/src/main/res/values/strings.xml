@@ -30,7 +30,7 @@
     <string name="submit">Submit</string>
     <string name="back">Back</string>
     <string name="new_password">New Password</string>
-    <string name="tracking_enabled_notification">Tracking Enabled</string>
+    <string name="tracking_enabled_notification">Tracker Enabled</string>
     <string name="tracker">Tracker</string>
     <string name="diagnosis">Diagnosis</string>
     <string name="map">Map</string>
@@ -46,4 +46,10 @@
     <string name="total_deaths">Total Deaths</string>
     <string name="location_statistics">Location Statistics</string>
     <string name="symptoms">Symptoms</string>
+    <string name="stopTracker">Click to stop tracker</string>
+    <string name="next">Next</string>
+    <string name="click_on_the_marker_that_appears_after_you_have_searched_for_a_location">Click on the marker that appears after a search.  </string>
+    <string name="follow_the_prompt_to_add_a_location">Follow the prompt to add a location</string>
+    <string name="adding_a_location">Adding a Location</string>
+    <string name="nearby_tracker">Nearby Tracker</string>
 </resources>

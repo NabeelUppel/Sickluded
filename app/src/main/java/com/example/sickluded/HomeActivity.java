@@ -3,6 +3,7 @@ package com.example.sickluded;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class HomeActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
         getLayoutInflater().inflate(R.layout.activity_home, contentFrameLayout);
+
         InitLocations();
         if (!SharedPreferenceClass.getData(this, "jwt").isEmpty()) {
             getStats();
@@ -34,6 +36,16 @@ public class HomeActivity extends MainActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (isRunning) {
+            navigationView.getMenu().findItem(R.id.Tracker).setChecked(true);
+            navigationView.getMenu().findItem(R.id.Home).setChecked(true);
+        } else {
+            navigationView.getMenu().findItem(R.id.Home).setChecked(true);
+        }
+    }
 
     private void getStats() {
         String URL = "https://disease.sh/v2/countries/South%20Africa?strict=true&allowNull=false";

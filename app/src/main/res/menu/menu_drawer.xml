@@ -2,17 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group
-        android:checkableBehavior="single"
+        android:checkableBehavior="all"
         android:id="@+id/g1">
-    </group>
-
-
-    <group android:checkableBehavior="single"
+    <group
         android:id="@+id/g2">
         <item
             android:id="@+id/Home"
             android:icon="@drawable/ic_home"
-            android:title="@string/home" />
+             android:title="@string/home" />
         <item
             android:id="@+id/Map"
             android:icon="@drawable/ic_map"
@@ -23,22 +20,24 @@
             android:icon="@drawable/ic_diagnosis"
             android:title="@string/symptoms" />
 
-        <item
-            android:id="@+id/Tracker"
-            android:icon="@drawable/ic_tracker"
-            android:title="@string/tracker" />
+
         <item
             android:id="@+id/Diagnosis"
             android:icon="@drawable/ic_diagnosis"
             android:title="@string/diagnosis" />
 
-
-
     </group>
+
+    <item
+        android:id="@+id/Tracker"
+        android:icon="@drawable/ic_tracker"
+        android:title="@string/tracker"
+        />
+    </group>
+
 
     <group
         android:id="@+id/g3"
-        android:checkableBehavior="single"
         >
         <item
             android:id="@+id/Settings"

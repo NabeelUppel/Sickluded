@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/cardview_dark_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recording Diagnosis"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageview1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:padding="1dp"
+            android:src="@drawable/map_tutorial" />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="If you have been diagnosed with Covid-19, record so in the Diagnose page.
+An email and notification  will be sent to the users that you've been in contact with. No personal information will be sent.
+Please ensure that you have been confirmed positive by being tested at your local clinic."
+            android:textAlignment="center"
+            android:textColor="@android:color/secondary_text_dark" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

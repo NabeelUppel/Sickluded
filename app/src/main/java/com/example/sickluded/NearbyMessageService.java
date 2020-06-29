@@ -19,8 +19,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -38,8 +40,6 @@ public class NearbyMessageService extends Service {
     private static String TAG = "NearbyMessage";
     private MessageListener mMessageListener;
     private Message message;
-    private static final int PERMISSIONS_REQUEST = 100;
-
 
     public NearbyMessageService() {
     }
@@ -53,6 +53,9 @@ public class NearbyMessageService extends Service {
             MessagesClient mMessagesClient = Nearby.getMessagesClient(this, new MessagesOptions.Builder()
                     .setPermissions(NearbyPermissions.BLE)
                     .build());
+
+            LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(this);
+
         }
 
         final String userId = SharedPreferenceClass.getData(getApplicationContext(), "ID");
@@ -93,20 +96,23 @@ public class NearbyMessageService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "Starting tracking", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Starting tracker", Toast.LENGTH_LONG).show();
         Nearby.getMessagesClient(this).publish(message);
         Nearby.getMessagesClient(this).subscribe(mMessageListener);
         createNotificationChannel();
         buildNotification();
+        Intent local = new Intent();
+        local.setAction("com.hello.action");
+        this.sendBroadcast(local);
         return START_STICKY;
     }
 
 
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 
     public void RecordContact(String UserMetID, String JWT, String Lat, String lng) {
         ContentValues params = new ContentValues();
@@ -156,8 +162,8 @@ public class NearbyMessageService extends Service {
 // Create the persistent notification//
 
         Notification.Builder builder = new Notification.Builder(this, CHANNEL_ID)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.tracking_enabled_notification))
+                .setContentTitle(getString(R.string.tracking_enabled_notification))
+                .setContentText(getString(R.string.stopTracker))
 
 //Make this notification ongoing so it can’t be dismissed by the user//
 
@@ -172,5 +178,15 @@ public class NearbyMessageService extends Service {
         super.onDestroy();
         Nearby.getMessagesClient(this).unpublish(message);
         Nearby.getMessagesClient(this).unsubscribe(mMessageListener);
+
+        Intent local = new Intent();
+        local.setAction("com.goodbye.action");
+        this.sendBroadcast(local);
     }
+
+
 }
+
+
+
+

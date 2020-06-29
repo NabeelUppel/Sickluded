@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,21 +18,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SettingsActivity extends MainActivity implements View.OnClickListener {
-    Button btnUsername, btnEmail, btnDelete;
+    Button btnUsername, btnEmail, btnDelete, btnTutorial;
     String password;
+    int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
         getLayoutInflater().inflate(R.layout.activity_settings, contentFrameLayout);
+
+        navigationView.setCheckedItem(R.id.Settings);
         btnUsername = findViewById(R.id.changeUsername);
         btnEmail = findViewById(R.id.changeEmail);
         btnDelete = findViewById(R.id.deleteAccount);
+        btnTutorial = findViewById(R.id.tutorial);
         btnEmail.setOnClickListener(this);
         btnUsername.setOnClickListener(this);
         btnDelete.setOnClickListener(this);
-
+        btnTutorial.setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +54,56 @@ public class SettingsActivity extends MainActivity implements View.OnClickListen
 
             case R.id.deleteAccount:
                 DeleteAccountDialog();
+                break;
+
+            case R.id.tutorial:
+                final int[] layouts = {R.layout.map_tutorial, R.layout.map_tutorial2, R.layout.tracker_tutorial,R.layout.diagnose_tutorial};
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+                builder.setCancelable(false).setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (index < layouts.length - 1) {
+                            index++;
+                            System.out.println(index);
+                            System.out.println(layouts.length);
+                            final FrameLayout frameView = new FrameLayout(SettingsActivity.this);
+                            builder.setView(frameView);
+                            final AlertDialog alertDialog = builder.create();
+                            LayoutInflater inflater = alertDialog.getLayoutInflater();
+                            inflater.inflate(layouts[index], frameView);
+                            alertDialog.show();
+                        } else {
+                            dialogInterface.dismiss();
+                            index = 0;
+                        }
+                    }
+                }).setNeutralButton("Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (index > 0) {
+                            index--;
+                            System.out.println(index);
+                            System.out.println(layouts.length);
+                            final FrameLayout frameView = new FrameLayout(SettingsActivity.this);
+                            builder.setView(frameView);
+                            final AlertDialog alertDialog = builder.create();
+                            LayoutInflater inflater = alertDialog.getLayoutInflater();
+                            inflater.inflate(layouts[index], frameView);
+                            alertDialog.show();
+                        } else {
+                            dialogInterface.dismiss();
+                            index = 0;
+                        }
+                    }
+                });
+                final FrameLayout frameView = new FrameLayout(this);
+                builder.setView(frameView);
+                final AlertDialog alertDialog = builder.create();
+                LayoutInflater inflater = alertDialog.getLayoutInflater();
+                inflater.inflate(layouts[index], frameView);
+                alertDialog.show();
+
                 break;
         }
     }
@@ -108,6 +163,15 @@ public class SettingsActivity extends MainActivity implements View.OnClickListen
 
         builder.show();
     }
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (isRunning) {
+            navigationView.getMenu().findItem(R.id.Tracker).setChecked(true);
+            navigationView.getMenu().findItem(R.id.Settings).setChecked(true);
+        } else {
+            navigationView.getMenu().findItem(R.id.Settings).setChecked(true);
+        }
+    }
 
 }

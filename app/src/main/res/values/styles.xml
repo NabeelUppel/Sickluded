@@ -17,4 +17,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundTint">@color/cardview_shadow_start_color</item>
+        <item name="android:textColorPrimary">@color/color_one</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
 </resources>
