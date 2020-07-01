@@ -17,16 +17,16 @@
             android:text="@string/nearby_tracker"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="@android:color/secondary_text_dark"
+            android:textColor="@color/blood"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="@color/places_autocomplete_fullscreen_background"
+             />
 
         <ImageView
             android:id="@+id/imageview1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:padding="1dp"
             android:src="@drawable/nearby_tracker" />
 
         <TextView
@@ -34,8 +34,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="The tracker uses Google's Nearby Messages Service to tracker contact with other individuals by makeing use of Bluetooth, WiFi and Bluetooth Low Energy"
+            android:background="@color/places_autocomplete_fullscreen_background"
+            android:text="@string/tracker_tutorial"
             android:textAlignment="center"
-            android:textColor="@android:color/secondary_text_dark" />
+            android:textColor="@color/textColor" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,7 +28,7 @@ public class DiagnosisActivity extends MainActivity {
     private NumberPicker np;
     private String[] npValues = new String[]{"I have been diagnosed", "I am healthy"};
     private int valuePicker;
-    private String valuePicked;
+    private static String valuePicked;
     private Button btnConfirm, btnRequest;
 
     @Override
@@ -38,7 +40,13 @@ public class DiagnosisActivity extends MainActivity {
         np = findViewById(R.id.numberPicker);
         InitialisePicker();
         btnConfirm = findViewById(R.id.btnConfirm);
-
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                valuePicker = np.getValue();
+                valuePicked = npValues[valuePicker];
+            }
+        });
 
         btnRequest = findViewById(R.id.Request);
         btnRequest.setOnClickListener(new View.OnClickListener() {
@@ -47,9 +55,19 @@ public class DiagnosisActivity extends MainActivity {
                 RequestDiagnosis();
             }
         });
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                if (valuePicked.equals("I am healthy")) {
+                    RecordRecovery();
+                } else {
+                    alertBoxBuilder();
+                }
+
+            }
+        });
     }
-
 
     @Override
     protected void onStart() {
@@ -66,34 +84,13 @@ public class DiagnosisActivity extends MainActivity {
         np.setMinValue(0);
         np.setMaxValue(1);
         np.setDisplayedValues(npValues);
-        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-
-
-                btnConfirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        valuePicker = np.getValue();
-                        valuePicked = npValues[valuePicker];
-                        if (valuePicked.equals("I am healthy")) {
-                            RecordRecovery();
-                        } else {
-                            alertBoxBuilder();
-                        }
-
-
-                    }
-                });
-            }
-        });
-
+        valuePicked = npValues[0];
     }
 
     public void alertBoxBuilder() {
-        new AlertDialog.Builder(DiagnosisActivity.this)
+        new AlertDialog.Builder(DiagnosisActivity.this,R.style.CustomDialogTheme)
                 .setTitle("Confirm Diagnosis")
-                .setMessage("Please ensure that you have been tested for such disease.")
+                .setMessage("Please ensure that you have been tested positive for Covid-19.")
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -105,7 +102,7 @@ public class DiagnosisActivity extends MainActivity {
 
     public void datePicker() {
         final Calendar newCalendar = Calendar.getInstance();
-        DatePickerDialog StartTime = new DatePickerDialog(DiagnosisActivity.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog StartTime = new DatePickerDialog(DiagnosisActivity.this,R.style.CustomDatePickerTheme, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
@@ -148,7 +145,7 @@ public class DiagnosisActivity extends MainActivity {
                 System.out.println(response);
                 JSONObject j = new JSONObject(response);
                 String message = new PhpHandler().getMessage(j);
-                new AlertDialog.Builder(DiagnosisActivity.this)
+                new AlertDialog.Builder(DiagnosisActivity.this,R.style.CustomDialogTheme)
                         .setTitle("Diagnosis")
                         .setMessage(message)
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {

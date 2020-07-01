@@ -9,9 +9,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,37 +21,50 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public class changeEmail extends AppCompatActivity implements View.OnClickListener {
-    Button submit, back;
+    Button submit;
     EditText newEmail;
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_email);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent a = new Intent(changeEmail.this, SettingsActivity.class);
+                startActivity(a);
+                finish();
+            }
+        });
+
         submit = findViewById(R.id.Submit);
         submit.setOnClickListener(this);
         newEmail = findViewById(R.id.newEmail);
-        back = findViewById(R.id.back);
-        back.setOnClickListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(changeEmail.this, SettingsActivity.class);
+        startActivity(a);
+        finish();
     }
 
     @Override
     public void onClick(View view) {
         String email = newEmail.getText().toString();
-        switch (view.getId()) {
-            case R.id.Submit:
-                if(!email.isEmpty()) {
-                    AlterEmail(email);
-                }else{
-                    Toast.makeText(this, "Please enter new email address", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.back:
-                Intent a = new Intent(changeEmail.this, SettingsActivity.class);
-                startActivity(a);
-                break;
 
-        }
+            if (!email.isEmpty()) {
+                AlterEmail(email);
+            } else {
+                Toast.makeText(this, "Please enter new email address", Toast.LENGTH_SHORT).show();
+
+
+            }
+
     }
 
 

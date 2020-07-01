@@ -8,14 +8,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +26,7 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,19 +53,25 @@ public class MapActivity extends MainActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FrameLayout contentFrameLayout = (FrameLayout) findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
+        FrameLayout contentFrameLayout = findViewById(R.id.content_frame); //Remember this is the FrameLayout area within your activity_main.xml
         getLayoutInflater().inflate(R.layout.activity_map, contentFrameLayout);
         navigationView.setCheckedItem(R.id.Map);
-        InitLocations();
+
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        InitLocations();
         Places.initialize(getApplicationContext(), getResources().getString(R.string.Places_Key));
+
 
         // Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        autocompleteFragment.setHint("Search");
+
+        autocompleteFragment.setActivityMode(AutocompleteActivityMode.FULLSCREEN);
+
 
         // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
@@ -82,7 +88,7 @@ public class MapActivity extends MainActivity implements OnMapReadyCallback {
                     @Override
                     public boolean onMarkerClick(final Marker marker) {
 
-                        new AlertDialog.Builder(MapActivity.this)
+                        new AlertDialog.Builder(MapActivity.this, R.style.CustomDialogTheme)
                                 .setTitle("Add Location?")
                                 .setMessage("Please confirm the location and select the date and time")
                                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -131,7 +137,7 @@ public class MapActivity extends MainActivity implements OnMapReadyCallback {
 
     public void datePicker(final Marker marker) {
         final Calendar newCalendar = Calendar.getInstance();
-        DatePickerDialog StartTime = new DatePickerDialog(MapActivity.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog StartTime = new DatePickerDialog(MapActivity.this,R.style.CustomDatePickerTheme, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 timePicker(marker, year, monthOfYear, dayOfMonth);
             }
@@ -146,7 +152,7 @@ public class MapActivity extends MainActivity implements OnMapReadyCallback {
         final Calendar nCalender = Calendar.getInstance();
         int hour = nCalender.get(Calendar.HOUR_OF_DAY);
         int minute = nCalender.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(MapActivity.this, new TimePickerDialog.OnTimeSetListener() {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(MapActivity.this ,new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 Calendar newDate = Calendar.getInstance();
@@ -157,6 +163,8 @@ public class MapActivity extends MainActivity implements OnMapReadyCallback {
 
             }
         }, hour, minute, true);
+
+        timePickerDialog.getWindow().setBackgroundDrawableResource(R.color.places_autocomplete_fullscreen_background);
         timePickerDialog.show();
     }
 

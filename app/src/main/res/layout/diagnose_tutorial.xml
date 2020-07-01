@@ -14,31 +14,30 @@
             android:id="@+id/Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Recording Diagnosis"
+            android:text="@string/recording_diagnosis"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="@android:color/secondary_text_dark"
+            android:textColor="@color/blood"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="@color/places_autocomplete_fullscreen_background"
+            />
 
         <ImageView
-            android:id="@+id/imageview1"
+            android:id="@+id/imageView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:padding="1dp"
-            android:src="@drawable/map_tutorial" />
+            android:scaleType="centerInside"
+            android:src="@drawable/diagnosis_tutorial" />
 
         <TextView
             android:id="@+id/text1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="If you have been diagnosed with Covid-19, record so in the Diagnose page.
-An email and notification  will be sent to the users that you've been in contact with. No personal information will be sent.
-Please ensure that you have been confirmed positive by being tested at your local clinic."
-            android:textAlignment="center"
-            android:textColor="@android:color/secondary_text_dark" />
+            android:text="@string/daignosis_tutorial"
+android:textAlignment="center"
+            android:textColor="@color/textColor" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 

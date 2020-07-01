@@ -41,6 +41,12 @@ public class SignUpActivity extends MainActivity implements View.OnClickListener
     }
 
     @Override
+    public void onBackPressed() {
+
+
+    }
+
+    @Override
     public void onClick(View v) {
         String confirmP = editConfirm.getText().toString();
         String username = editUsername.getText().toString();

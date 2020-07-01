@@ -57,52 +57,7 @@ public class SettingsActivity extends MainActivity implements View.OnClickListen
                 break;
 
             case R.id.tutorial:
-                final int[] layouts = {R.layout.map_tutorial, R.layout.map_tutorial2, R.layout.tracker_tutorial,R.layout.diagnose_tutorial};
-
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
-                builder.setCancelable(false).setPositiveButton("Next", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (index < layouts.length - 1) {
-                            index++;
-                            System.out.println(index);
-                            System.out.println(layouts.length);
-                            final FrameLayout frameView = new FrameLayout(SettingsActivity.this);
-                            builder.setView(frameView);
-                            final AlertDialog alertDialog = builder.create();
-                            LayoutInflater inflater = alertDialog.getLayoutInflater();
-                            inflater.inflate(layouts[index], frameView);
-                            alertDialog.show();
-                        } else {
-                            dialogInterface.dismiss();
-                            index = 0;
-                        }
-                    }
-                }).setNeutralButton("Back", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (index > 0) {
-                            index--;
-                            System.out.println(index);
-                            System.out.println(layouts.length);
-                            final FrameLayout frameView = new FrameLayout(SettingsActivity.this);
-                            builder.setView(frameView);
-                            final AlertDialog alertDialog = builder.create();
-                            LayoutInflater inflater = alertDialog.getLayoutInflater();
-                            inflater.inflate(layouts[index], frameView);
-                            alertDialog.show();
-                        } else {
-                            dialogInterface.dismiss();
-                            index = 0;
-                        }
-                    }
-                });
-                final FrameLayout frameView = new FrameLayout(this);
-                builder.setView(frameView);
-                final AlertDialog alertDialog = builder.create();
-                LayoutInflater inflater = alertDialog.getLayoutInflater();
-                inflater.inflate(layouts[index], frameView);
-                alertDialog.show();
+TutorialDialogs();
 
                 break;
         }
@@ -110,7 +65,7 @@ public class SettingsActivity extends MainActivity implements View.OnClickListen
 
 
     public void DeleteAccountDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
         builder.setTitle("Delete Account");
 
 // Set up the input
@@ -163,6 +118,7 @@ public class SettingsActivity extends MainActivity implements View.OnClickListen
 
         builder.show();
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -173,5 +129,65 @@ public class SettingsActivity extends MainActivity implements View.OnClickListen
             navigationView.getMenu().findItem(R.id.Settings).setChecked(true);
         }
     }
+
+
+
+
+
+
+    public void TutorialDialogs(){
+        final int[] layouts = {R.layout.map_tutorial, R.layout.map_tutorial2, R.layout.tracker_tutorial, R.layout.diagnose_tutorial};
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
+        builder.setCancelable(false).setPositiveButton("Next", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (index < layouts.length - 1) {
+                    index++;
+                    System.out.println(index);
+                    System.out.println(layouts.length);
+                    final FrameLayout frameView = new FrameLayout(SettingsActivity.this);
+                    builder.setView(frameView);
+                    final AlertDialog alertDialog = builder.create();
+                    LayoutInflater inflater = alertDialog.getLayoutInflater();
+                    inflater.inflate(layouts[index], frameView);
+                    alertDialog.show();
+                } else {
+                    dialogInterface.dismiss();
+                    index = 0;
+                }
+            }
+        }).setNeutralButton("Back", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (index > 0) {
+                    index--;
+                    System.out.println(index);
+                    System.out.println(layouts.length);
+                    final FrameLayout frameView = new FrameLayout(SettingsActivity.this);
+                    builder.setView(frameView);
+                    final AlertDialog alertDialog = builder.create();
+                    LayoutInflater inflater = alertDialog.getLayoutInflater();
+                    inflater.inflate(layouts[index], frameView);
+                    alertDialog.show();
+                } else {
+                    dialogInterface.dismiss();
+                    index = 0;
+                }
+            }
+        });
+        final FrameLayout frameView = new FrameLayout(this);
+        builder.setView(frameView);
+        final AlertDialog alertDialog = builder.create();
+        LayoutInflater inflater = alertDialog.getLayoutInflater();
+        inflater.inflate(layouts[index], frameView);
+        alertDialog.show();
+
+    }
+
+
+
+
+
 
 }

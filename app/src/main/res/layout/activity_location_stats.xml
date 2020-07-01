@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/places_autocomplete_fullscreen_background"
+    android:orientation="vertical"
+    tools:context=".LocationStatsActivity">
+
+    <TextView
+        android:id="@+id/LocationStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/places_autocomplete_fullscreen_background"
+        android:text="@string/location_statistics"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/blood"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:scrollbars="vertical" />
+</LinearLayout>

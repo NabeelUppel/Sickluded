@@ -16,6 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/blood"
             android:orientation="vertical"
             android:paddingBottom="10dp">
 
@@ -26,54 +27,20 @@
                 android:layout_gravity="center"
                 android:text="Here"
                 android:textAllCaps="true"
-                android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textColor="@color/color_two"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            <TextView
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="10dp"
-                    android:id="@+id/Coordinates">
-
-                    <TextView
-                        android:id="@+id/Latitude"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="15dp"
-                        android:text="-26.052515646"
-                        android:textColor="#000000"
-                        android:textSize="15sp" />
-
-
-                    <TextView
-                        android:id="@+id/Longitude"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="15dp"
-                        android:text="27.64152152415252"
-                        android:textColor="#000000"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <TextView
-
-                    android:id="@+id/Count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="89dp"
-                    android:layout_toRightOf="@id/Coordinates"
-                    android:text="Count: 1"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
-            </RelativeLayout>
+                android:id="@+id/Count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Cases: 1"
+                android:textColor="@color/color_two"
+                android:textSize="15sp" />
 
 
         </LinearLayout>

@@ -17,16 +17,16 @@
             android:text="@string/adding_a_location"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="@android:color/secondary_text_dark"
+            android:textColor="@color/blood"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="@color/places_autocomplete_fullscreen_background"
+            />
 
         <ImageView
             android:id="@+id/imageview1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:padding="1dp"
             android:src="@drawable/map_tutorial2" />
 
         <TextView
@@ -36,7 +36,8 @@
             android:layout_gravity="center"
             android:text="@string/follow_the_prompt_to_add_a_location"
             android:textAlignment="center"
-            android:textColor="@android:color/secondary_text_dark" />
+            android:textColor="@color/textColor"
+            android:background="@color/places_autocomplete_fullscreen_background"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 

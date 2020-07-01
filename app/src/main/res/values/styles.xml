@@ -1,25 +1,71 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/blood</item>
+        <item name="colorPrimaryDark">#EA8881</item>
+        <item name="colorAccent">@color/color_one</item>
+        <item name="android:timePickerStyle">@android:style/Theme.Holo.Dialog.MinWidth</item>
+        <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+        <item name="android:actionMenuTextColor">@color/textColor</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog">
-        <item name="android:backgroundTint">@color/cardview_shadow_start_color</item>
-        <item name="android:textColorPrimary">@color/color_one</item>
-        <item name="android:textColor">@android:color/darker_gray</item>
+    <style name="PlacesAutocompleteBase" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/places_ui_default_primary</item>
+        <item name="colorPrimaryDark">@color/places_ui_default_primary_dark</item>
+        <item name="android:colorBackground">
+            @color/places_ui_default_primary_dark
+        </item>
     </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light">
+
+    </style>
+
+    <style name="CustomDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:textColor">@color/blood</item>
+        <item name="android:textColorPrimary">@color/dialogText</item>
+        <item name="colorPrimary">@color/blood</item>
+        <item name="android:background">@color/places_autocomplete_fullscreen_background</item>
+
+    </style>
+
+    <style name="CustomDatePickerTheme" parent="Theme.MaterialComponents.Dialog">
+        <item name="colorPrimary">@color/blood</item>
+        -----> Buttons
+        <item name="colorSecondary">@color/color_one</item>
+        <item name="android:textColor">@color/color_one</item>
+        <item name="android:textColorPrimary">@color/color_one</item>
+        <item name="android:textColorSecondary">@color/color_one</item>
+
+        <item name="materialButtonStyle">@style/dialogButton</item>
+        <item name="android:background">@color/places_autocomplete_fullscreen_background</item>
+    </style>
+
+    <style name="dialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="background">@android:color/transparent</item>
+    </style>
+
+
+    <style name="PlacesAutocompleteThemeFullscreen" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">
+            @color/places_autocomplete_fullscreen_background
+        </item>
+        <item name="colorPrimary">@color/places_ui_default_primary</item>
+        <item name="colorPrimaryDark">@color/places_ui_default_primary_dark</item>
+    </style>
+
+
 </resources>

@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
@@ -19,39 +20,41 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public class changeUsername extends AppCompatActivity implements View.OnClickListener {
-    Button submit, back;
+    Button submit;
     EditText newUsername;
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_username);
         submit = findViewById(R.id.Submit);
         submit.setOnClickListener(this);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent a = new Intent(changeUsername.this, SettingsActivity.class);
+                startActivity(a);
+                finish();
+            }
+        });
         newUsername = findViewById(R.id.newUsername);
-        back = findViewById(R.id.back);
-        back.setOnClickListener(this);
+
 
     }
 
     @Override
     public void onClick(View v) {
         String username = newUsername.getText().toString();
+            if (!username.isEmpty()) {
+                AlterUsername(username);
+            } else {
+                Toast.makeText(this, "Please enter new username", Toast.LENGTH_SHORT).show();
+            }
 
-        switch (v.getId()) {
-            case R.id.Submit:
-                if(!username.isEmpty()) {
-                    AlterUsername(username);
-                }else{
-                    Toast.makeText(this, "Please enter new username", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.back:
-                Intent a = new Intent(changeUsername.this, SettingsActivity.class);
-                startActivity(a);
-                break;
-
-        }
     }
 
 
@@ -91,6 +94,7 @@ public class changeUsername extends AppCompatActivity implements View.OnClickLis
 
         Intent a = new Intent(changeUsername.this, SettingsActivity.class);
         startActivity(a);
+        finish();
 
     }
 }

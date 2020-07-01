@@ -11,9 +11,12 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,21 +33,18 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
-import org.json.JSONException;
-
 public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
     NavigationView navigationView;
     View headerView;
-    NearbyMessageService mService;
     private static final int PERMISSIONS_REQUEST = 100;
     private Context mContext = MainActivity.this;
     BroadcastReceiver stopReceiver;
     static boolean isRunning = false;
+    int index = 0;
 
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(stopReceiver);
@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         navigationView = findViewById(R.id.navigation_view);
 
         IntentFilter stopFilter = new IntentFilter();
@@ -85,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
         navEmail.setText(email);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
         drawerLayout = findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_closed);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -113,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                             if (permission == PackageManager.PERMISSION_GRANTED) {
                                 Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
                                 startActivity(mapIntent);
-
                                 drawerLayout.closeDrawers();
                             } else {
                                 //If the app doesn’t currently have access to the user’s location, then request access
@@ -190,12 +193,21 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
 
+                    case R.id.LocationStats:
+                        if (!navigationView.getMenu().findItem(R.id.LocationStats).isChecked()) {
+                            Intent locationStatsIntent = new Intent(getApplicationContext(), LocationStatsActivity.class);
+                            startActivity(locationStatsIntent);
+                            drawerLayout.closeDrawers();
+                        }
+                        break;
+
                 }
                 return false;
             }
         });
 
     }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -205,12 +217,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void Logout() {
         RemoveDeviceToken();
         SharedPreferenceClass.deleteAllData(this);
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
-        if(isRunning){
+        if (isRunning) {
             stopService(new Intent(this, NearbyMessageService.class));
             isRunning = false;
         }
@@ -237,8 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
                 new PhpHandler().makeHttpRequest(MainActivity.this, URL, params, new RequestHandler() {
                     @Override
-                    public void processRequest(String response) throws JSONException {
-                        Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
+                    public void processRequest(String response) {
                     }
                 });
             }
@@ -252,6 +264,8 @@ public class MainActivity extends AppCompatActivity {
         stopService(new Intent(this, NearbyMessageService.class));
         isRunning = false;
     }
+
+
 
 
 }

@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
 
+
     }
 
     @Override
@@ -106,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String strJWT = new PhpHandler().getJWT(j);
                     JWT jwt = new JWT(strJWT);
                     Map<String, Claim> allClaims = jwt.getClaims();
-                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+
                     String username = allClaims.get("username").asString();
                     String email = allClaims.get("email").asString();
                     String ID = allClaims.get("userID").asString();
@@ -116,6 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     SharedPreferenceClass.addData(LoginActivity.this, "username", username);
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+
                     addDeviceToken(ID);
                     startActivity(intent);
 
@@ -127,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void EmailDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialogTheme);
         builder.setTitle("Forgot Password");
 
 // Set up the input

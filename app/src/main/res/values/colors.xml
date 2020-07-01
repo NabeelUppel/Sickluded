@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="color_one">#fb7268</color>
+    <color name="colorPrimary">#59555E</color>
+    <color name="colorPrimaryDark">#434147</color>
+    <color name="colorAccent">#0A1917</color>
+    <color name="color_one">#FD878D</color>
+    <color name="color_two">#EFC2C5</color>
+    <color name="blood">#FB4B54</color>
+
+
+    <color name="dialogText">@color/color_one</color>
+    <color name="places_autocomplete_search_text">#FB4B54</color>
+    <color name="textColor">@android:color/black</color>
+    <color name="places_autocomplete_fullscreen_background">@color/places_ui_default_primary</color>
+    <color name="places_autocomplete_search_hint">@color/blood</color>
+
+    <color name="places_autocomplete_prediction_primary_text">
+        @color/quantum_grey900
+    </color>
+    <color name="places_autocomplete_prediction_primary_text_highlight">
+        @color/quantum_grey600
+    </color>
+    <color name="places_autocomplete_prediction_secondary_text">
+        @color/quantum_grey600
+    </color>
+
+
+
+
+
 </resources>

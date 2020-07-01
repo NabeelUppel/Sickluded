@@ -53,8 +53,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "called");
         holder.txtTitle.setText(mTitles.get(position));
-        holder.txtLatitude.setText("Latitude: " + mLat.get(position));
-        holder.txtLongitude.setText("Longitude: " + mLng.get(position));
         holder.txtCount.setText("Cases: " + mCount.get(position));
 
 
@@ -75,13 +73,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtLatitude, txtLongitude, txtTitle, txtCount;
+        TextView txtTitle, txtCount;
         RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtLatitude = itemView.findViewById(R.id.Latitude);
-            txtLongitude = itemView.findViewById(R.id.Longitude);
             txtTitle = itemView.findViewById(R.id.Title);
             txtCount = itemView.findViewById(R.id.Count);
             parentLayout = itemView.findViewById(R.id.parent_layout);
@@ -91,7 +87,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void datePicker(final String id) {
         final Calendar newCalendar = Calendar.getInstance();
-        DatePickerDialog StartTime = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog StartTime = new DatePickerDialog(mContext,R.style.CustomDatePickerTheme, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 timePicker(id, year, monthOfYear, dayOfMonth);
             }

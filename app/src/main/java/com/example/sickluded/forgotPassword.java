@@ -35,7 +35,7 @@ public class forgotPassword extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         Uri Data = intent.getData();
         token = Data.getQueryParameter("token"); //set query and assigns it to query.
-
+        System.out.println(token);
     }
 
     @Override

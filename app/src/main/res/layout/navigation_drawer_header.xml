@@ -6,8 +6,9 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#fffd"
+        android:layout_height="200dp"
+        android:background="@drawable/background2"
+        android:alpha="0.80"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -15,26 +16,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:paddingLeft="20sp">
+            android:paddingLeft="30dp"
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/SavedUsername"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name">
+                android:text="Name"
+                android:textColor="@android:color/white"
+                android:textStyle="bold">
             </TextView>
 
             <TextView
                 android:id="@+id/SavedEmailAddress"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="name@gmail.com"
-                android:layout_below="@id/SavedUsername">
+                android:textColor="@android:color/white"
+                android:textStyle="bold">
             </TextView>
 
-        </RelativeLayout>
+        </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
