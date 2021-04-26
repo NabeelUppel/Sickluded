@@ -1,0 +1,4 @@
+<?php
+$fcmAPI = "AAAAjxMma0Q:APA91bHZbmIYn1BdYSe34JPLkyRkewy0QLTPppin2a882ps0-6NV3uGf1eSZZO3yqTbJp-6KBk5F-ALcMMyhUEfMPuesBt8fUgnjBsHs91gPGLQk9uwvimSVMQaBxvZVRzsO94i0oaUj";
+
+?>
